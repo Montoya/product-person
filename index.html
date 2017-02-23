@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <head>
   <title>Product Person</title>
@@ -7,13 +7,100 @@
   <meta name="format-detection" content="telephone=no">
   <meta name="HandheldFriendly" content="true">
   <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui, target-densitydpi=device-dpi">
+  <link rel="stylesheet" type="text/css" href="css/spectre.min.css">
   <style type="text/css">
-
+    html, body {
+      height: 100vh;
+      font-size:16px;
+    }
+    #form, #chart {
+      float: left;
+      height: 100vh;
+      width: 50%;
+      position: relative;
+      box-sizing: border-box;
+      padding:24px;
+    }
+    #form {
+      background: #22313F;
+      background-image: linear-gradient(to bottom, #535353 0%, #212121 100%);
+      background-image: linear-gradient(to right, #868f96 0%, #596164 100%);
+      color: #fff;
+    }
+    #chart {
+      background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
+    }
+    #radar-chart {
+      position:absolute;
+      top:50%;
+      left:50%;
+      margin-left:-200px;
+      margin-top:-200px;
+    }
+    h1 {
+      font-size:24px;
+    }
   </style>
 </head>
 <body>
 
+  <div id="form">
+    <h1>What kind of product person are you?</h1>
+    <form>
+      <fieldset>
+        <legend>Choose your passions, where higher = more passionate about.</legend>
+      </fieldset>
+    </form>
+  </div>
 
-  <script type="text/javascript" src="https://cdnjs.com/libraries/Chart.js"></script>
+  <div id="chart">
+    <canvas id="radar-chart" width="400" height="400"></canvas>
+  </div>
+
+  <script type="text/javascript" src="js/Chart.bundle.min.js"></script>
+  <script type="text/javascript">
+    var data = {
+      labels: ['Technical', 'User Experience', 'User Psychology', 'Data', 'Project Management', 'Wackiness'],
+      datasets: [
+        {
+          label: 'Product Passions',
+          data: [6, 6, 5, 1, 1, 1],
+          backgroundColor: "#c6dfb6",
+          borderColor: "#c6dfb6",
+          borderWidth: 0,
+          pointRadius: 0,
+          lineCap: 'round'
+        }
+      ]
+    };
+
+    var ctx = document.getElementById('radar-chart');
+    var radar_chart = new Chart(ctx, {
+      type: 'radar',
+      data: data,
+      options: {
+        responsive: false,
+        legend: {
+          display: true,
+          labels: {
+            boxWidth: 0,
+            fontSize: 16,
+            fontStyle: "500",
+            fontColor: "#333",
+            padding: 8
+          }
+        },
+        tooltips: {
+          enabled: false
+        },
+        scale: {
+          ticks: {
+            beginAtZero: true,
+            display: false,
+          }
+        }
+      }
+    });
+  </script>
 </body>
 </html>
