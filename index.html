@@ -22,20 +22,74 @@
   <link rel="stylesheet" type="text/css" href="css/spectre.min.css">
   <style type="text/css">
     html, body {
-      height: 100vh;
+      min-height: 100vh;
     }
     body {
-      font-size:18px;
-      font-family:"Work Sans",sans-serif;
-      background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
+      font-size: 18px;
+      font-family: "Work Sans",sans-serif;
     }
     #form, #chart {
-      float: left;
-      min-height:100vh;
-      width: 50%;
-      position: relative;
-      padding:24px;
+      padding: 12px 24px;
     }
+    #about {
+      padding: 24px 24px 12px 24px;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    @media (min-width:960px) {
+
+      body {
+        background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
+      }
+
+      #form, #chart {
+        float: left;
+        min-height: 100vh;
+        width: 50%;
+        position: relative;
+      }
+
+      #chart {
+        box-sizing: border-box;
+      }
+
+      #chart-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -240px;
+        margin-top: -200px;
+      }
+
+      #about {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 50%;
+        box-sizing: border-box;
+      }
+
+    }
+
+    @media (max-width:959px) {
+
+      #radar-chart {
+        margin: 0 auto;
+      }
+
+      #about {
+        background-color: #22313F;
+        padding-bottom:24px;
+      }
+
+      #chart {
+        min-height: 480px;
+        clear: left;
+        background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
+      }
+
+    }
+
     #form {
       background: #22313F;
       background-image: linear-gradient(to bottom, #535353 0%, #212121 100%);
@@ -43,65 +97,46 @@
       color: #fff;
     }
     #form form fieldset div {
-      margin:1em 0;
+      margin: 1em 0;
     }
     #form form fieldset div input {
-      width:2.4em;
-      text-indent:0.4em;
-      margin-right:0.5em;
+      width: 2.4em;
+      text-indent: 0.4em;
+      margin-right: 0.5em;
     }
     #about, #about a {
-      color:#fff;
-    }
-    #about {
-      background:rgba(0, 0, 0, 0.4);
-      position:fixed;
-      bottom:0;
-      left:0;
-      width:50%;
-      box-sizing:border-box;
-      padding:24px 24px 12px 24px;
-    }
-    #chart {
-      box-sizing: border-box;
-    }
-    #chart-content {
-      position:absolute;
-      top:50%;
-      left:50%;
-      margin-left:-240px;
-      margin-top:-200px;
+      color: #fff;
     }
     #chart-controls {
-      padding-top:24px;
-      text-align:center;
+      padding-top: 24px;
+      text-align: center;
     }
     .btn {
-      font-size:16px;
-      height:36px;
+      font-size: 16px;
+      height: 36px;
     }
     #download {
-      margin-right:8px;
+      margin-right: 8px;
     }
     #tweet {
-      display:inline;
-      background-color:#1b95e0;
-      border-color:#0c7abf;
+      display: inline;
+      background-color: #1b95e0;
+      border-color: #0c7abf;
     }
     #tweet:focus, #tweet:hover {
-      background-color:#0c7abf;
+      background-color: #0c7abf;
     }
     h1 {
-      font-family:Merriweather,Georgia,serif;
-      font-size:24px;
+      font-family: Merriweather,Georgia,serif;
+      font-size: 24px;
     }
     #subtitle {
-      margin-top:-0.5em;
-      margin-bottom:1.5em;
-      font-style:italic;
+      margin-top: -0.5em;
+      margin-bottom: 1.5em;
+      font-style: italic;
     }
     .warning {
-      color:#f9d423;
+      color: #f9d423;
     }
   </style>
 </head>
@@ -195,7 +230,12 @@
     }
 
     function updateFormBottomPadding() {
-      document.getElementById('form').style.paddingBottom = 24 + document.getElementById('about').offsetHeight + 'px';
+      if(window.innerWidth > 959) {
+        document.getElementById('form').style.paddingBottom = 24 + document.getElementById('about').offsetHeight + 'px';
+      }
+      else {
+        document.getElementById('form').style.paddingBottom = '24px';
+      }
     }
 
     window.onresize = updateFormBottomPadding;
