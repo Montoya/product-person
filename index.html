@@ -136,6 +136,9 @@
   <script type="text/javascript" src="js/Chart.bundle.min.js"></script>
   <script type="text/javascript">
     function updateData() {
+
+      if(update_running) { return; }
+
       var new_data = [];
       var sum = 0;
       for(var i = 0; i < inputs.length; i++) {
@@ -253,12 +256,15 @@
     });
 
     var check_for_data;
+    var update_running = false;
     if(check_for_data = gup('data')) {
+      update_running = true;
       check_for_data = check_for_data.split(',');
       for(var i = 0; i < inputs.length; i++) {
         inputs[i].value = parseInt(check_for_data.unshift());
       }
       updateData();
+      update_running = false;
     }
   </script>
 </body>
