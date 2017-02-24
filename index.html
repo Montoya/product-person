@@ -66,9 +66,16 @@
       text-align:center;
     }
     .btn {
-      background:transparent;
       font-size:16px;
       height:36px;
+    }
+    #download {
+      margin-right:8px;
+    }
+    #tweet {
+      display:inline;
+      background-color:#1b95e0;
+      border-color:#0c7abf;
     }
     h1 {
       font-family:Merriweather,Georgia,serif;
@@ -125,7 +132,7 @@
       <canvas id="radar-chart" width="480" height="360"></canvas>
       <div id="chart-controls">
         <button id="download" class="btn btn-primary">Download</button>
-        <a id="tweet" class="btn btn-primary" href="https://twitter.com/intent/tweet?text=Discover%20your%20product%20person%20passions%20with%20this%20clever%20tool%3A&amp;url=https%3A%2F%2Fmontoya.github.io%2Fproduct-person%2F&amp;via=cm0nt0y4&amp;related=uriharamati">Tweet</button>
+        <a id="tweet" class="btn btn-primary" href="https://twitter.com/intent/tweet?text=Discover%20your%20product%20person%20passions%20with%20this%20clever%20tool%3A&amp;url=https%3A%2F%2Fmontoya.github.io%2Fproduct-person%2F&amp;via=cm0nt0y4&amp;related=uriharamati">Tweet</a>
       </div>
     </div>
   </div>
@@ -168,6 +175,9 @@
           /* probably user is running this in a local file, which won't work */
         }
       }
+
+      /* update tweet intent */
+      document.getElementById('tweet').href = "https://twitter.com/intent/tweet?text=Just%20found%20my%20product%20person%20passions%2C%20take%20a%20look%3A&amp;url=https%3A%2F%2Fmontoya.github.io%2Fproduct-person%2F"+location.search+"&amp;via=cm0nt0y4&amp;related=uriharamati";
     }
 
     function updateFormBottomPadding() {
@@ -270,7 +280,7 @@
       }
     }
 
-    /* Just%20found%20my%20product%20person%20passions%2C%20take%20a%20look%3A */
+    /*  */
   </script>
 </body>
 </html>
