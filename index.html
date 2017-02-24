@@ -154,6 +154,15 @@
         form_helper.textContent = remainder + ' points left';
         form_helper.className = '';
       }
+
+
+      if(window.history.replaceState) {
+        try {
+          window.history.replaceState({}, {}, location.origin+'?data='+new_data.join(','));
+        } catch(err) {
+          /* probably user is running this in a local file, which won't work */
+        }
+      }
     }
 
     function updateFormBottomPadding() {
