@@ -135,7 +135,7 @@
   <script type="text/javascript" src="js/FileSaver.min.js"></script>
   <script type="text/javascript" src="js/Chart.bundle.min.js"></script>
   <script type="text/javascript">
-    function updateData(e) {
+    function updateData() {
       var new_data = [];
       var sum = 0;
       for(var i = 0; i < inputs.length; i++) {
@@ -252,7 +252,14 @@
       });
     });
 
-    console.log(gup('data'));
+    var check_for_data;
+    if(check_for_data = gup('data')) {
+      check_for_data = check_for_data.split(',');
+      for(var i = 0; i < inputs.length; i++) {
+        inputs[i].value = parseInt(check_for_data.unshift());
+      }
+      updateData();
+    }
   </script>
 </body>
 </html>
