@@ -258,13 +258,15 @@
     var check_for_data;
     var update_running = false;
     if(check_for_data = gup('data')) {
-      update_running = true;
-      check_for_data = check_for_data.split(',');
-      for(var i = 0; i < inputs.length; i++) {
-        inputs[i].value = parseInt(check_for_data.shift());
+      if(check_for_data.match(/^[1-8,]{11}$/) !== null) {
+        update_running = true;
+        check_for_data = check_for_data.split(',');
+        for(var i = 0; i < inputs.length; i++) {
+          inputs[i].value = parseInt(check_for_data.shift());
+        }
+        update_running = false;
+        updateData();
       }
-      update_running = false;
-      updateData();
     }
   </script>
 </body>
