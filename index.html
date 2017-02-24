@@ -7,18 +7,21 @@
   <meta name="format-detection" content="telephone=no">
   <meta name="HandheldFriendly" content="true">
   <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui, target-densitydpi=device-dpi">
+  <link href="https://fonts.googleapis.com/css?family=Merriweather|Work+Sans:300" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/spectre.min.css">
   <style type="text/css">
     html, body {
       height: 100vh;
-      font-size:16px;
+    }
+    body {
+      font-size:18px;
+      font-family:"Work Sans",sans-serif;
     }
     #form, #chart {
       float: left;
-      height: 100vh;
+      min-height:100vh;
       width: 50%;
       position: relative;
-      box-sizing: border-box;
       padding:24px;
     }
     #form {
@@ -27,66 +30,174 @@
       background-image: linear-gradient(to right, #868f96 0%, #596164 100%);
       color: #fff;
     }
+    #form form fieldset div {
+      margin:1em 0;
+    }
+    #form form fieldset div input {
+      width:2.4em;
+      text-indent:0.4em;
+      margin-right:0.5em;
+    }
+    #about, #about a {
+      color:#fff;
+    }
+    #about {
+      background:rgba(0, 0, 0, 0.4);
+      position:fixed;
+      bottom:0;
+      left:0;
+      width:50%;
+      box-sizing:border-box;
+      padding:24px 24px 12px 24px;
+    }
     #chart {
       background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
+      box-sizing: border-box;
     }
-    #radar-chart {
+    #chart-content {
       position:absolute;
       top:50%;
       left:50%;
-      margin-left:-200px;
+      margin-left:-240px;
       margin-top:-200px;
     }
+    #chart-controls {
+      padding-top:24px;
+      text-align:center;
+    }
+    .btn {
+      background:transparent;
+      font-size:16px;
+      height:36px;
+    }
     h1 {
+      font-family:Merriweather,Georgia,serif;
       font-size:24px;
+    }
+    #subtitle {
+      margin-top:-0.5em;
+      margin-bottom:1.5em;
+      font-style:italic;
+    }
+    .warning {
+      color:#f9d423;
     }
   </style>
 </head>
 <body>
 
   <div id="form">
-    <h1>What kind of product person are you?</h1>
+    <h1>What type of product person are you?</h1>
+    <p id="subtitle">Well, what are you passionate about?</p>
     <form>
       <fieldset>
-        <legend>Choose your passions, where higher = more passionate about.</legend>
+        <legend>Choose your passions, where higher = more passionate, by distributing 20 points across the following 6 categories:</legend>
+        <div>
+          <input type="number" class="passion-value" min="1" max="8" name="technical" id="technical" value="4"> Technical
+        </div>
+        <div>
+          <input type="number" class="passion-value" min="1" max="8" name="user-experience" id="user-experience" value="4"> User Experience
+        </div>
+        <div>
+          <input type="number" class="passion-value" min="1" max="8" name="user-psychology" id="user-psychology" value="3"> User Psychology
+        </div>
+        <div>
+          <input type="number" class="passion-value" min="1" max="8" name="data" id="data" value="3"> Data
+        </div>
+        <div>
+          <input type="number" class="passion-value" min="1" max="8" name="project-management" id="project-management" value="3"> Project Management
+        </div>
+        <div>
+          <input type="number" class="passion-value" min="1" max="8" name="wackiness" id="wackiness" value="3"> Wackiness
+        </div>
       </fieldset>
     </form>
+    <p id="form-helper">0 points left</p>
+  </div>
+
+  <div id="about">
+    <p>Based on <a href="https://medium.com/swlh/what-you-should-be-looking-for-in-a-product-person-ee40e39a7301">&ldquo;What you should be looking for in a product person&rdquo;</a> by <a href="https://twitter.com/uriharamati">Uri Haramati</a>. Read that before doing this!</p>
+    <p>Made by <a href="https://twitter.com/cm0nt0y4">Christian Montoya</a>. Find this on <a href="https://github.com/Montoya/product-person">GitHub</a>. p.s. I&rsquo;m looking for work! Want my <a href="http://christianmontoya.net/montoya_resume_web.pdf">r&#233;sum&#233;</a>?</p>
   </div>
 
   <div id="chart">
-    <canvas id="radar-chart" width="400" height="400"></canvas>
+    <div id="chart-content">
+      <canvas id="radar-chart" width="480" height="360"></canvas>
+      <div id="chart-controls">
+        <button id="download" class="btn btn-primary">Download</button>
+      </div>
+    </div>
   </div>
 
+  <script type="text/javascript" src="js/Blob.min.js"></script>
+  <script type="text/javascript" src="js/canvas-toBlob.min.js"></script>
+  <script type="text/javascript" src="js/FileSaver.min.js"></script>
   <script type="text/javascript" src="js/Chart.bundle.min.js"></script>
   <script type="text/javascript">
+    function updateData(e) {
+      var new_data = [];
+      var sum = 0;
+      for(var i = 0; i < inputs.length; i++) {
+        var new_value = parseInt(inputs[i].value);
+        new_data.push(new_value);
+        sum += new_value;
+      }
+      data.datasets[0].data = new_data;
+      radar_chart.update();
+
+      var remainder = 20 - sum;
+      if(remainder < 0) {
+        form_helper.textContent = Math.abs(remainder) + ' points over \u26a0\ufe0f';
+        form_helper.className = 'warning';
+      }
+      else {
+        form_helper.textContent = remainder + ' points left';
+        form_helper.className = '';
+      }
+    }
+
+    function updateFormBottomPadding() {
+      document.getElementById('form').style.paddingBottom = 24 + document.getElementById('about').offsetHeight + 'px';
+    }
+
+    window.onresize = updateFormBottomPadding;
+
+    updateFormBottomPadding();
+
+    var canvas = document.getElementById('radar-chart');
+    var gradient = canvas.getContext('2d').createLinearGradient(240, 0, 240, 320);
+    gradient.addColorStop(0, '#9be15d');
+    gradient.addColorStop(1, '#00e3ae');
+
     var data = {
       labels: ['Technical', 'User Experience', 'User Psychology', 'Data', 'Project Management', 'Wackiness'],
       datasets: [
         {
           label: 'Product Passions',
-          data: [6, 6, 5, 1, 1, 1],
-          backgroundColor: "#c6dfb6",
-          borderColor: "#c6dfb6",
-          borderWidth: 0,
+          data: [4, 4, 3, 3, 3, 3],
+          backgroundColor: gradient, /* "#c6dfb6", */
+          borderColor: "rgba(0,0,0,0)",
           pointRadius: 0,
-          lineCap: 'round'
+          lineCap: 'round',
+          lineJoin: 'round'
         }
       ]
     };
 
-    var ctx = document.getElementById('radar-chart');
-    var radar_chart = new Chart(ctx, {
+    var radar_chart = new Chart(canvas, {
       type: 'radar',
       data: data,
       options: {
         responsive: false,
+        animationSteps: 2,
         legend: {
           display: true,
           labels: {
             boxWidth: 0,
-            fontSize: 16,
-            fontStyle: "500",
+            fontSize: 18,
+            fontStyle: "300",
             fontColor: "#333",
+            fontFamily: "'Work Sans',sans-serif",
             padding: 8
           }
         },
@@ -95,11 +206,40 @@
         },
         scale: {
           ticks: {
-            beginAtZero: true,
+            /* beginAtZero: true, */
+            min: 0,
+            suggestedMax: 6,
+            stepSize: 1,
             display: false,
+            fontFamily: "'Work Sans',sans-serif"
+          },
+          gridLines: {
+            display: true,
+            drawBorder: true,
+            drawTicks: false
+          },
+          pointLabels: {
+            fontSize: 12,
+            fontStyle: "300",
+            fontColor: "#333",
+            fontFamily: "'Work Sans',sans-serif"
           }
         }
       }
+    });
+
+    var inputs = document.querySelectorAll('.passion-value');
+    for(var i = 0; i < inputs.length; i++) {
+      var input = inputs[i];
+      input.addEventListener('input', updateData);
+    }
+
+    var form_helper = document.getElementById('form-helper');
+
+    document.getElementById('download').addEventListener('click', function(e) {
+      canvas.toBlob(function(blob) {
+        saveAs(blob, 'product-passion.png');
+      });
     });
   </script>
 </body>
