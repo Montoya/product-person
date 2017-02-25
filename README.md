@@ -6,4 +6,4 @@ This is an interactive tool based on *[What you should be looking for in a produ
 
 **I am currently looking for work**, ideally a product management position in the NJ/NY area or remote. Have a look at my [résumé](http://christianmontoya.net/montoya_resume_web.pdf) if you like.
 
-Thanks to Uri Haramati, [Eli Grey](https://github.com/eligrey/), and the [Chart.js](http://www.chartjs.org/) team for making this quick project possible.
+Thanks to Uri Haramati, [Eli Grey](https://github.com/eligrey/), the [Chart.js](http://www.chartjs.org/) team, and [Yan Zhu](https://github.com/picturepan2) for making this quick project possible.
