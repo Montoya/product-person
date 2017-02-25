@@ -1,0 +1,124 @@
+/*
+  I love CSS!
+  So put another rule in the stylesheet, baby
+  I love CSS!
+  So come an' make your styles cascade with me
+*/
+
+html, body {
+  min-height: 100vh;
+}
+body {
+  font-size: 18px;
+  font-family: "Work Sans",sans-serif;
+}
+#form, #chart {
+  padding: 12px 24px;
+}
+#about {
+  padding: 24px 24px 12px 24px;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+@media (min-width:960px) {
+
+  body {
+    background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
+  }
+
+  #form, #chart {
+    float: left;
+    min-height: 100vh;
+    width: 50%;
+    position: relative;
+  }
+
+  #chart {
+    box-sizing: border-box;
+  }
+
+  #chart-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -240px;
+    margin-top: -200px;
+  }
+
+  #about {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 50%;
+    box-sizing: border-box;
+  }
+
+}
+
+@media (max-width:959px) {
+
+  #radar-chart {
+    margin: 0 auto;
+  }
+
+  #about {
+    background-color: #22313F;
+    padding-bottom:24px;
+  }
+
+  #chart {
+    min-height: 480px;
+    clear: left;
+    background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
+  }
+
+}
+
+#form {
+  background: #22313F;
+  background-image: linear-gradient(to bottom, #535353 0%, #212121 100%);
+  background-image: linear-gradient(to right, #868f96 0%, #596164 100%);
+  color: #fff;
+}
+#form form fieldset div {
+  margin: 1em 0;
+}
+#form form fieldset div input {
+  width: 2.4em;
+  text-indent: 0.4em;
+  margin-right: 0.5em;
+}
+#about, #about a {
+  color: #fff;
+}
+#chart-controls {
+  padding-top: 24px;
+  text-align: center;
+}
+.btn {
+  font-size: 16px;
+  height: 36px;
+}
+#download {
+  margin-right: 8px;
+}
+#tweet {
+  display: inline;
+  background-color: #1b95e0;
+  border-color: #0c7abf;
+}
+#tweet:focus, #tweet:hover {
+  background-color: #0c7abf;
+}
+h1 {
+  font-family: Merriweather,Georgia,serif;
+  font-size: 24px;
+}
+#subtitle {
+  margin-top: -0.5em;
+  margin-bottom: 1.5em;
+  font-style: italic;
+}
+.warning {
+  color: #f9d423;
+}
