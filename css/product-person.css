@@ -83,6 +83,7 @@ body {
   #chart {
     padding-left: 0;
     padding-right: 0;
+    max-height: 332px;
   }
 
 }
