@@ -74,6 +74,19 @@ body {
 
 }
 
+@media (max-width:479px) {
+
+  #radar-chart {
+    width: 320px;
+    height: 240px;
+  }
+  #chart {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+}
+
 #form {
   background: #22313F;
   background-image: linear-gradient(to bottom, #535353 0%, #212121 100%);
